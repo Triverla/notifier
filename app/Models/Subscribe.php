@@ -13,6 +13,19 @@ class Subscribe extends Model
     use HasFactory, Uuid, SoftDeletes;
 
     /**
+     * Indicates if the IDs are auto-incrementing.
+     *
+     * @var bool
+     */
+    public $incrementing = false;
+
+    /**
+     * Table name
+     *
+     * @var string
+     */
+    protected $table = 'subscribers';
+    /**
      * The attributes that are mass assignable.
      *
      * @var array

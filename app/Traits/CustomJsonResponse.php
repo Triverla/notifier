@@ -6,7 +6,7 @@ namespace App\Traits;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Response;
+use Symfony\Component\HttpFoundation\Response;
 
 trait CustomJsonResponse
 {
@@ -22,7 +22,7 @@ trait CustomJsonResponse
             $response['data'] = $data;
         }
 
-        return Response::json($response, Response::HTTP_OK);
+        return response()->json($response, Response::HTTP_OK);
     }
 
     public function failedResponse(string $message = null, array $data = []): JsonResponse
@@ -36,7 +36,7 @@ trait CustomJsonResponse
             $response['data'] = $data;
         }
 
-        return Response::json($response, Response::HTTP_BAD_REQUEST);
+        return response()->json($response, Response::HTTP_BAD_REQUEST);
     }
 
     public function serverErrorResponse(string $message, \Exception $exception = null): JsonResponse
@@ -50,6 +50,6 @@ trait CustomJsonResponse
             'message' => $message
         ];
 
-        return Response::json($response, Response::HTTP_INTERNAL_SERVER_ERROR);
+        return response()->json($response, Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 }

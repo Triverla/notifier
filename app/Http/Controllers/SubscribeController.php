@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Actions\CreateSubscription;
 use App\Http\Requests\SubscribeRequest;
 use App\Models\Topic;
 use App\Traits\CustomJsonResponse;
@@ -13,33 +14,14 @@ class SubscribeController extends Controller
     use CustomJsonResponse;
 
     /**
-     * Subscribe to a topic
+     * CreateSubscription to a topic
      *
      * @param SubscribeRequest $request
      * @param string $topic
      * @return JsonResponse
      */
-    public function subscribe(SubscribeRequest $request, string $topic): JsonResponse
+    public function index(SubscribeRequest $request, string $topic): JsonResponse
     {
-        $topic = Topic::firstOrCreate([
-            'slug' => Str::slug($topic),
-            'topic' => $topic
-        ]);
-
-        $isSubscribed = $topic->subscribers()->whereUrl($request->get('url'))->exists();
-        if ($isSubscribed) {
-            return $this->failedResponse('You are already subscribed to this topic');
-        }
-
-        $topic->subscribers()->create([
-            'url' => $request->get('url')
-        ]);
-
-        $response = [
-            "url" => $request->get('url'),
-            "topic" => $topic
-        ];
-
-        return $this->successResponse('Subscription Successful', $response);
+        return app(CreateSubscription::class)->execute($request, $topic);
     }
 }

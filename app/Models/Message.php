@@ -5,10 +5,10 @@ namespace App\Models;
 use App\Traits\Uuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Topic extends Model
+class Message extends Model
 {
     use HasFactory, Uuid, SoftDeletes;
 
@@ -25,23 +25,15 @@ class Topic extends Model
      * @var array
      */
     protected $fillable = [
-        'topic',
-        'slug',
+        'topic_id',
+        'message_body',
     ];
 
     /**
-     * @return HasMany
+     * @return BelongsTo
      */
-    public function subscribers(): HasMany
+    public function topic(): BelongsTo
     {
-        return $this->hasMany(Subscribe::class);
-    }
-
-    /**
-     * @return HasMany
-     */
-    public function messages(): HasMany
-    {
-        return $this->hasMany(Message::class);
+        return $this->belongsTo(Topic::class);
     }
 }
