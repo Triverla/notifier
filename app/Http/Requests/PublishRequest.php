@@ -24,7 +24,7 @@ class PublishRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'body' => 'required|json'
+            'body' => 'required'
         ];
     }
 }

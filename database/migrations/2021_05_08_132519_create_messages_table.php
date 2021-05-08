@@ -19,7 +19,7 @@ class CreateMessagesTable extends Migration
                 ->constrained('topics')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->json('message_body');
+            $table->text('message_body');
             $table->softDeletes();
             $table->timestamps();
         });

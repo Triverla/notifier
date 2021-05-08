@@ -5,6 +5,7 @@ namespace App\Http\Actions;
 
 
 use App\Http\Requests\PublishRequest;
+use App\Models\Message;
 use App\Models\Topic;
 use App\Traits\CustomJsonResponse;
 use Illuminate\Http\JsonResponse;
@@ -28,9 +29,12 @@ class PublishTopic
             if (!$topic) {
                 return $this->failedResponse('Topic does not exist');
             }
+            Message::create([
+                'topic_id' => $topic->id,
+                'message_body' => $request->body
+            ]);
 
-
-            return $this->successResponse('Message published to topic successfully', $message);
+            return $this->successResponse('Message published to topic successfully');
         } catch (\Exception $exception) {
             return $this->serverErrorResponse('An error occurred while processing request', $exception);
         }

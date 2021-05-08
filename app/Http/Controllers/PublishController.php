@@ -20,7 +20,6 @@ class PublishController extends Controller
      */
     public function index(PublishRequest $request, string $topic): JsonResponse
     {
-        dd($request);
         return app(PublishTopic::class)->execute($request, $topic);
     }
 }
