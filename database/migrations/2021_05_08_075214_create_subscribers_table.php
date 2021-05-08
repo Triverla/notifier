@@ -14,7 +14,13 @@ class CreateSubscribersTable extends Migration
     public function up()
     {
         Schema::create('subscribers', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
+            $table->foreignUuid('user_id')
+                ->constrained('topics')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->string('url');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
