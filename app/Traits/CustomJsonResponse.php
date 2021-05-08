@@ -15,7 +15,6 @@ trait CustomJsonResponse
 
         $response = [
             'status' => true,
-            'statuscode' => Response::HTTP_OK,
             'message' => $message
         ];
 
@@ -26,11 +25,10 @@ trait CustomJsonResponse
         return Response::json($response, Response::HTTP_OK);
     }
 
-    public function failedResponse(string $message = null, array $data = []): \Illuminate\Http\JsonResponse
+    public function failedResponse(string $message = null, array $data = []): JsonResponse
     {
         $response = [
             'status' => false,
-            'statuscode' => Response::HTTP_BAD_REQUEST,
             'message' => $message
         ];
 
@@ -41,7 +39,7 @@ trait CustomJsonResponse
         return Response::json($response, Response::HTTP_BAD_REQUEST);
     }
 
-    public function serverErrorResponse(string $message, \Exception $exception = null): \Illuminate\Http\JsonResponse
+    public function serverErrorResponse(string $message, \Exception $exception = null): JsonResponse
     {
         if ($exception !== null) {
             Log::error("{$exception->getMessage()} on line {$exception->getLine()} in {$exception->getFile()}");
@@ -49,7 +47,6 @@ trait CustomJsonResponse
 
         $response = [
             'status' => false,
-            'statuscode' => Response::HTTP_INTERNAL_SERVER_ERROR,
             'message' => $message
         ];
 
