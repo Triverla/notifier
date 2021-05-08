@@ -12,7 +12,7 @@ class PublishController extends Controller
     use CustomJsonResponse;
 
     /**
-     * PublishTopic a topic
+     * PublishTopicNotification a topic
      *
      * @param PublishRequest $request
      * @param string $topic
