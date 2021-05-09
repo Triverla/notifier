@@ -34,7 +34,7 @@ class PublishTopic
             }
             $message = Message::firstorCreate([
                 'topic_id' => $topicData->id,
-                'message_body' => json_encode($request->post())
+                'message_body' => json_encode($request->body)
             ]);
 
             //Notify Subscribers
