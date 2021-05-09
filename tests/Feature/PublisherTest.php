@@ -53,7 +53,9 @@ class PublisherTest extends TestCase
         ]);
 
         $response = $this->post('/publish/' . $topic->slug, [
-            'body' => 'hello'
+            'body' => [
+                'message' => 'hello'
+            ],
         ]);
         $response->assertStatus(200)
             ->assertJsonStructure([
