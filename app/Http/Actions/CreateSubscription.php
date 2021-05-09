@@ -34,12 +34,12 @@ class CreateSubscription
             }
 
             $data->subscribers()->create([
-                'url' => $request->get('url')
+                'url' => $request->url
             ]);
 
             $response = [
-                "url" => $request->get('url'),
-                "topic" => $topic
+                'url' => $request->url,
+                'topic' => $topic
             ];
 
             return $this->successResponse('Subscription Successful', $response);
