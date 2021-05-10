@@ -4,14 +4,12 @@
 namespace App\Http\Actions;
 
 
-use App\Http\Requests\PublishRequest;
-use App\Jobs\Publish;
 use App\Jobs\PublishMessageToTopic;
 use App\Models\Message;
 use App\Models\Topic;
-use App\Notifications\PublishTopicNotification;
 use App\Traits\CustomJsonResponse;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class PublishTopic
@@ -21,12 +19,15 @@ class PublishTopic
     /**
      * PublishTopicNotification a topic
      *
-     * @param PublishRequest $request
+     * @param Request $request
      * @param $topic
      * @return JsonResponse
      */
-    public function execute(PublishRequest $request, $topic): JsonResponse
+    public function execute(Request $request, $topic): JsonResponse
     {
+        if (count($request->all()) === 0) {
+            return $this->formValidationResponse('Request body cannot be empty and must be a Javascript object');
+        }
         try {
             $topicData = Topic::whereSlug(Str::slug($topic))->first();
             if (!$topicData) {
@@ -34,7 +35,7 @@ class PublishTopic
             }
             $message = Message::firstorCreate([
                 'topic_id' => $topicData->id,
-                'message_body' => json_encode($request->body)
+                'message_body' => json_encode($request->post())
             ]);
 
             //Notify Subscribers
