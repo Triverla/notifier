@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Actions\PublishTopic;
-use App\Http\Requests\PublishRequest;
 use App\Traits\CustomJsonResponse;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class PublishController extends Controller
 {
@@ -14,11 +14,11 @@ class PublishController extends Controller
     /**
      * PublishTopicNotification a topic
      *
-     * @param PublishRequest $request
+     * @param Request $request
      * @param string $topic
      * @return JsonResponse
      */
-    public function index(PublishRequest $request, string $topic): JsonResponse
+    public function index(Request $request, string $topic): JsonResponse
     {
         return app(PublishTopic::class)->execute($request, $topic);
     }

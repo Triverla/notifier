@@ -5,7 +5,7 @@ This application accept urls as payload to subscribe to topics on a server and w
 ##Installation
 <ol>
 <li>Clone repo to your local machine using <code>git clone https://github.com/Triverla/notifier.git</code> </li>
-<li>Run <code>composer install from your terminal</code></li>
+<li>Run <code>composer install</code>  from your terminal</li>
 <li>Run <code>cp .env.example .env</code> to create .env</li>
 <li>Configure your database in the .env and run <code>php artisan migrate</code> to migrate database tables</li>
 <li>Run <code>php artisan serve</code> to start server</li>
