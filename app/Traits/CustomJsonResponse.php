@@ -39,6 +39,28 @@ trait CustomJsonResponse
         return response()->json($response, Response::HTTP_BAD_REQUEST);
     }
 
+    /**
+     * Set form validation errors
+     *
+     * @param $errors
+     * @param array $data
+     * @return JsonResponse
+     */
+    public function formValidationResponse($errors, array $data = []): JsonResponse
+    {
+        $response = [
+            'status' => false,
+            'message' => 'Whoops. Validation failed',
+            'validationErrors' => $errors,
+        ];
+
+        if (!empty($data)) {
+            $response['data'] = $data;
+        }
+
+        return response()->json($response, Response::HTTP_UNPROCESSABLE_ENTITY);
+    }
+
     public function serverErrorResponse(string $message, \Exception $exception = null): JsonResponse
     {
         if ($exception !== null) {

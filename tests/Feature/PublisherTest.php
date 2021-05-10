@@ -5,12 +5,54 @@ namespace Tests\Feature;
 use App\Http\Requests\PublishRequest;
 use App\Models\Topic;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class PublisherTest extends TestCase
 {
     use RefreshDatabase;
+
+
+    /**
+     * Test request body cannot be empty
+     *
+     * @return void
+     */
+    public function test_request_body_cannot_be_empty()
+    {
+        $this->withExceptionHandling();
+        $topic = Topic::factory()->create([
+            'topic' => 'topic1',
+            'slug' => Str::slug('topic1')
+        ]);
+        $request = new Request([
+
+        ]);
+
+        $response = $this->post('/publish/' . $topic->slug, $request->post());
+        $response->assertStatus(422);
+    }
+
+    /**
+     * Test request body cannot be empty
+     *
+     * @return void
+     */
+    public function test_request_body_must_be_json()
+    {
+        $this->withExceptionHandling();
+        $topic = Topic::factory()->create([
+            'topic' => 'topic1',
+            'slug' => Str::slug('topic1')
+        ]);
+        $request = new Request([
+            'message'
+        ]);
+
+        $response = $this->post('/publish/' . $topic->slug, $request->post());
+        $response->assertStatus(422);
+    }
 
     /**
      * Test Can Publish to Topic.
@@ -24,8 +66,8 @@ class PublisherTest extends TestCase
             'topic' => 'topic1',
             'slug' => Str::slug('topic1')
         ]);
-        $request = new PublishRequest([
-            'body' => 'hello'
+        $request = new Request([
+            'message' => 'hello'
         ]);
 
         $response = $this->post('/publish/' . $topic->slug, $request->query());
